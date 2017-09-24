@@ -40,5 +40,39 @@ self.D.summary()
 The final Dense layer has only one output as probability value to whether to accept or reject completely the input image.
 
 #Generator
-The Generator synthesizes 
+The Generator synthesizes fake output based on random noise input using the inverse of convolution called transposed 
+convolution. Upscaling between layers is used to add realistic effects and batch normalization is used for stabilizing learning.
+ReLU is used as activation function. Dropout of 0.3 - 0.5 is used in first layer to avoid over-fitting. The following code defines
+a Generator: (https://medium.com/towards-data-science/gan-by-example-using-keras-on-tensorflow-backend-1a6d515a60d0)
+self.G = Sequential()
+dropout = 0.4
+depth = 64+64+64+64
+dim = 7
+# In: 100
+# Out: dim x dim x depth
+self.G.add(Dense(dim*dim*depth, input_dim=100))
+self.G.add(BatchNormalization(momentum=0.9))
+self.G.add(Activation('relu'))
+self.G.add(Reshape((dim, dim, depth)))
+self.G.add(Dropout(dropout))
+# In: dim x dim x depth
+# Out: 2*dim x 2*dim x depth/2
+self.G.add(UpSampling2D())
+self.G.add(Conv2DTranspose(int(depth/2), 5, padding='same'))
+self.G.add(BatchNormalization(momentum=0.9))
+self.G.add(Activation('relu'))
+self.G.add(UpSampling2D())
+self.G.add(Conv2DTranspose(int(depth/4), 5, padding='same'))
+self.G.add(BatchNormalization(momentum=0.9))
+self.G.add(Activation('relu'))
+self.G.add(Conv2DTranspose(int(depth/8), 5, padding='same'))
+self.G.add(BatchNormalization(momentum=0.9))
+self.G.add(Activation('relu'))
+# Out: 28 x 28 x 1 grayscale image [0.0,1.0] per pix
+self.G.add(Conv2DTranspose(1, 5, padding='same'))
+self.G.add(Activation('sigmoid'))
+self.G.summary()
+return self.G
+
+
 
