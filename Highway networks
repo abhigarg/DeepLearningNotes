@@ -1,0 +1,5 @@
+#Highway Networks
+Highway networks are like Resnets but instead of passing complete information across residual block it passes a factor of the
+information which is learnt as another parameter
+
+y = alpha * f(x) + x * (1-alpha)
