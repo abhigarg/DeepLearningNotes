@@ -1,8 +1,7 @@
 #Residual Networks (Resnets)
-These solves the problem of diminishing gradients during backpropagation learning for deep neural networks by providing
-shortcuts. In normal neural network, the activation in a convolution layer is defined as y = f(x) but in Resnets the same is
-defined as y = f(x) + x where the additional 'x' will allow gradients to reach to the top of the network without diminshing to 
-zero.
+These solves the problem of degradation of training error for deep neural networks by providing shortcuts. 
+In normal neural network, the activation in a convolution layer is defined as y = f(x) but in Resnets the same is defined as 
+y = f(x) + x.
 
 #Wide Resnets
 Wide Resnets has more channels in each layer to facilititate reuse of residual or dimnishing features. If there are few features
